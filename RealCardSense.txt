@@ -1,0 +1,511 @@
+# Project Overview  
+
+*Domain: Banking  
+*Project Name: RealCardSense – Real-Time Credit Card Transaction Analytics  
+*Client:ABC
+*Project Duration: 2 Years  
+*Daily Data Volume: 500 MB  
+
+---
+
++ Project Introduction & Overview  
+
+The RealCardSense Analytics project for ABC Bank aims to analyze real-time credit card transactions to identify customer spending behaviors, detect fraud immediately, enhance targeted marketing, and improve overall customer satisfaction. By leveraging Azure Data Services, ABC Bank aims to streamline its analytics, enabling real-time decision-making and operational efficiency.
+
+---
+
++ Project Context  
+
+The banking and financial services industry faces continuous challenges with rapidly evolving transaction behaviors, increasing incidents of fraud, and intensified market competition. ABC Bank currently faces difficulties in immediately identifying fraudulent transactions, segmenting customers accurately, and providing personalized services effectively. To address these, ABC Bank has initiated this scalable, cloud-based real-time data analytics project.
+
+---
+
++ Business Objectives  
+
+- Real-Time Fraud Detection: Instant identification and alerting on suspicious transactions.
+- Customer Spending Analysis: Understanding customer spending habits for improved service.
+- Competitive Market Analysis: Benchmarking bank services against competitors.
+- Revenue Forecasting: Accurate predictions based on transactional trends.
+- Real-Time Decision Making: Provide immediate insights to marketing and fraud detection teams.
+
+---
+
++ Technical Overview  
+
+- Data Ingestion: Real-time transactional data extraction via APIs into Azure Data Lake Storage (ADLS).
+- Data Processing: Utilize Azure Databricks (PySpark) for immediate data cleansing, transformation, and aggregation.
+- Incremental Data Handling: Implement Change Data Capture (CDC) techniques for real-time processing.
+- Data Storage: Structured, real-time data stored in Delta Lake.
+- Visualization & Reporting: Real-time dashboards with Power BI.
+- Monitoring & Security: Azure Monitor and Log Analytics for secure and reliable data processing.
+
+---
+
++ Expected Benefits  
+
+- Enhanced Fraud Detection: Immediate, accurate fraud detection minimizes losses.
+- Improved Customer Satisfaction: Personalized services based on real-time analysis.
+- Scalability & Cost Efficiency: Optimized, scalable cloud architecture reduces operational costs.
+- Better Data Governance: Compliance with banking regulations and enhanced data security.
+
+---
+
++ Technology Stack (Azure Environment)  
+
+| Azure Services                                  |
+| ----------------------------------------------- |
+| Azure Data Lake Storage (ADLS Gen2)             |
+| Azure Data Factory (ADF)                        |
+| Azure Databricks (PySpark)                      |
+| Power BI                                        |
+| Azure Monitor & Log Analytics                   |
+
+---
+Step-by-step guide to setting up a real-time Azure Databricks connection for your project (assuming transactions data via Azure Event Hubs):
+
+1. Create an Azure Databricks workspace in Azure portal.
+2. Set up Azure Event Hubs, creating a namespace, event hub, and obtaining connection strings.
+3. Install necessary libraries (e.g., Spark Event Hubs connector) in Databricks clusters.
+4. Create Databricks notebook to establish Spark Session (`spark`).
+5. Define Event Hubs connection string within notebook as secure secret scope.
+6. Configure streaming DataFrame to read real-time data from Event Hubs using PySpark.
+7. Set the data schema explicitly for structured streaming data processing.
+8. Apply required transformations, validations, or business logic using PySpark.
+9. Write output stream to Delta Lake tables in Azure Data Lake Storage Gen2 (ADLS).
+10.Run and monitor streaming job continuously via Azure Databricks interface.
+
++ Project Architecture & Workflow  
+
+1. Data Ingestion (Landing Zone)  
+- Real-time transaction data captured through secure banking APIs.
+- Stored in ADLS Gen2 under structured layers:  
+  - Raw → Land, Err, Stag, Proc, Arch  
+  - Cleansing → Land, Err, Stag, Proc, Arch  
+  - Processed → Land, Err, Stag, Proc, Arch  
+
+2. Data Cleansing & Transformation  
+- ADF manages workflow orchestration.  
+- Databricks (PySpark) applies transformations:  
+  - Duplicate transactions removal  
+  - Column renaming & formatting  
+  - Data type standardization  
+  - Validation of transactions  
+- Valid transactions stored in Processed Layer; errors documented in Err folder.
+
+3. Incremental Load & Real-Time Handling  
+- Implement real-time Watermark strategy using Transaction Timestamps.
+- CDC pipeline continuously captures incremental changes.
+- Pipeline triggered every 5 minutes.
+
+4. Data Storage & Real-Time Processing  
+- Data securely stored in Delta Lake (ADLS).
+- Real-time analytical queries executed using Databricks SQL endpoints.
+
+5. Visualization & Reporting  
+- Power BI dashboards directly connected to Delta Lake for real-time analytics.
+
+6. Monitoring & Logging  
+- Azure Monitor & Log Analytics ensures smooth operation.
+- Automated alerts using Azure Logic Apps for real-time issue resolution.
+
+---
+
+Tables & Schema Design (Banking Domain)  
+
+1. Transaction Master Table  
+- `TransactionID` (STRING): Unique identifier  
+- `CardNumber` (STRING): Masked card number  
+- `Amount` (DECIMAL(10,2)): Transaction amount  
+- `TransactionTime` (TIMESTAMP): Date/time  
+- `MerchantID` (STRING): Merchant identifier  
+- `MerchantCategory` (STRING): Merchant type/category  
+- `Location` (STRING): Transaction location  
+- `TransactionType` (STRING): Purchase/Refund  
+- `FraudFlag` (BOOLEAN): Fraud indicator  
+
+2. Customer Master Table  
+- `CustomerID` (STRING): Unique customer ID  
+- `FullName` (STRING)  
+- `DateOfBirth` (DATE)  
+- `Gender` (STRING)  
+- `Address` (STRING), `City`, `State`, `ZipCode`  
+- `Email` (STRING), `PhoneNumber` (STRING)  
+- `AccountStatus` (STRING): Active/Inactive  
+
+3. Merchant Master Table  
+- `MerchantID` (STRING): Unique merchant ID  
+- `MerchantName` (STRING)  
+- `Category` (STRING): Industry type  
+- `Location`, `City`, `State`, `ZipCode`  
+
+---
+
++ Team Members & Responsibilities (18 members)  
+
+- Data Engineers (6): Develop & optimize PySpark ETL pipelines.
+- Data Architects (4): Design schemas, storage strategy, and scalability.
+- Business Analysts (3): Gather requirements, define KPIs, validate insights.
+- DevOps Engineers (2): Automate CI/CD, manage Azure infrastructure.
+- Project Manager (1): Oversee milestones, ensure timely delivery, stakeholder coordination.
+- QA Engineers (2): Conduct rigorous testing, validation, and compliance monitoring.
+
+---
+
++ Project Timeline  
+
+| Project Phase                     | Duration |
+| --------------------------------- | -------- |
+| Requirement Gathering             | 3 Weeks  |
+| Real-Time Data Ingestion Setup    | 3 Weeks  |
+| Data Cleansing & Real-Time ETL    | 4 Weeks  |
+| Incremental & Real-Time Pipeline  | 4 Weeks  |
+| Storage & Query Optimization      | 3 Weeks  |
+| Visualization & Reporting         | 3 Weeks  |
+| Security & Compliance Checks      | 3 Weeks  |
+| Testing & Validation              | 3 Weeks  |
+| Deployment & Monitoring           | 3 Weeks  |
+
+---
+
++ Real-Time PySpark Business Logics (examples)  
+
+
+Tables used:
+
+- Transactions (`TransactionID`, `CardNumber`, `Amount`, `TransactionTime`, `MerchantID`, `MerchantCategory`, `Location`, `TransactionType`, `FraudFlag`)
+- Customers (`CustomerID`, `FullName`, `DateOfBirth`, `Gender`, `Address`, `City`, `State`, `ZipCode`, `Email`, `PhoneNumber`, `AccountStatus`)
+- Merchants (`MerchantID`, `MerchantName`, `Category`, `Location`, `City`, `State`, `ZipCode`)
+
+---
+simple PySpark logic to handle an incremental daily data load using Delta Lake, suitable for your banking credit card analytics project:
+
+---
+
+# Incremental Load Logic Using PySpark (Delta Lake):
+
++ Scenario:  
+You want to process only new or updated records every day based on a timestamp (`TransactionTime`). This logic ensures only incremental data is processed daily.
+
+---
+
+- Step-by-step logic:
+
+① Initialize Spark Session
+
+```python
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, max
+
+spark = SparkSession.builder \
+    .appName("IncrementalLoadTransactions") \
+    .getOrCreate()
+```
+
+---
+
+② Define paths (assuming Delta Lake)
+
+```python
+raw_data_path = "/mnt/datalake/raw/transactions"
+processed_data_path = "/mnt/datalake/processed/transactions"
+checkpoint_path = "/mnt/datalake/checkpoints/transactions"
+```
+
+---
+
+③ Fetch the Last Processed Timestamp (Watermark)
+
+```python
+try:
+    processed_df = spark.read.format("delta").load(processed_data_path)
+    last_processed_time = processed_df.agg(max("TransactionTime").alias("last_time")).collect()[0]["last_time"]
+except:
+    last_processed_time = None
+```
+
+---
+
+④ Read Incremental Raw Data (based on timestamp)
+
+```python
+raw_df = spark.read.format("delta").load(raw_data_path)
+
+if last_processed_time:
+    incremental_df = raw_df.filter(col("TransactionTime") > last_processed_time)
+else:
+    incremental_df = raw_df  # Initial load (first time)
+```
+
+---
+
+⑤ Perform necessary transformations
+
+```python
+from pyspark.sql.functions import lit, current_timestamp
+
+processed_incremental_df = incremental_df \
+    .withColumn("ProcessedTimestamp", current_timestamp()) \
+    .dropDuplicates(["TransactionID"])
+```
+
+---
+
+⑥ Merge incremental data into processed Delta table
+
+```python
+from delta.tables import DeltaTable
+
+if DeltaTable.isDeltaTable(spark, processed_data_path):
+    deltaTable = DeltaTable.forPath(spark, processed_data_path)
+
+    (deltaTable.alias("target")
+     .merge(processed_incremental_df.alias("source"), "target.TransactionID = source.TransactionID")
+     .whenMatchedUpdateAll()
+     .whenNotMatchedInsertAll()
+     .execute()
+    )
+else:
+    processed_incremental_df.write.format("delta") \
+        .mode("overwrite") \
+        .save(processed_data_path)
+```
+
+---
+
+Explanation of the Logic:
+
+- Read last processed timestamp (called Watermark).
+- Filter raw data to only include new or updated transactions after this timestamp.
+- Perform transformations: add processing timestamps, remove duplicates, standardize columns.
+- Merge into Delta Lake table to update existing records and insert new ones.
+
+---
+
+Prerequisite :
+
+- Ensure Delta Lake is enabled on Azure Databricks.
+- This incremental load logic efficiently handles daily data processing.
+- Using `merge` avoids duplication and maintains accuracy.
+
+Let me know if you require further clarification!
++ Initialization of Spark Session & Streaming:
+
+```python
+
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
+spark = SparkSession.builder.appName("CardInsights360").getOrCreate()
+
+# Schema for transaction stream
+transaction_schema = StructType([
+    StructField("TransactionID", StringType(), True),
+    StructField("CardNumber", StringType(), True),
+    StructField("Amount", DoubleType(), True),
+    StructField("TransactionTime", TimestampType(), True),
+    StructField("MerchantID", StringType(), True),
+    StructField("MerchantCategory", StringType(), True),
+    StructField("Location", StringType(), True),
+    StructField("TransactionType", StringType(), True),
+    StructField("FraudFlag", BooleanType(), True)
+])
+
+transactions_df = spark.readStream.format("delta") \
+    .schema(transaction_schema) \
+    .load("/delta/processed/transactions")
+```
+---
+1. Fraud detection logic: Identify sudden spikes in transactions amount.
+2. Geo-location validation: Validate transactions based on customer’s location history.
+3. Customer segmentation: Segment customers dynamically based on spending patterns.
+4. Merchant performance tracking: Real-time aggregation of merchant transactions.
+5. Spending alert: Real-time alerts for transactions exceeding predefined thresholds.
+6. Duplicate transaction identification: Immediate detection & handling of duplicates.
+7. Anomaly detection: ML-based identification of anomalous transaction behavior.
+8. Cross-selling logic: Real-time recommendation engine based on purchases.
+9. Transaction categorization: Categorizing transactions into merchant categories instantly.
+10. Customer retention logic: Identify and predict customer churn in real-time.
+
+---
+
+
+---
+
+#1. Fraud Detection: Sudden Spikes in Transaction Amount
+
+```python
+from pyspark.sql.window import Window
+
+windowSpec = Window.partitionBy("CardNumber").orderBy(col("TransactionTime")).rowsBetween(-5, 0)
+
+fraud_detection_df = transactions_df \
+    .withColumn("avg_amount", avg("Amount").over(windowSpec)) \
+    .withColumn("amount_spike", col("Amount") > (col("avg_amount") * 3)) \
+    .filter(col("amount_spike") == True)
+
+fraud_detection_df.writeStream \
+    .format("delta") \
+    .outputMode("append") \
+    .option("checkpointLocation", "/delta/checkpoints/fraud_spikes") \
+    .start("/delta/output/fraud_spikes")
+```
+
+---
+
+# 2. Geo-location Validation
+
+```python
+customer_location_history = spark.read.format("delta").load("/delta/processed/customer_locations")
+
+geo_validation_df = transactions_df.alias("txn") \
+    .join(customer_location_history.alias("hist"), ["CardNumber"]) \
+    .filter(col("txn.Location") != col("hist.LastKnownLocation"))
+
+geo_validation_df.writeStream \
+    .format("delta") \
+    .outputMode("append") \
+    .option("checkpointLocation", "/delta/checkpoints/geo_validation") \
+    .start("/delta/output/geo_validation_alerts")
+```
+
+---
+
+# 3. Dynamic Customer Segmentation
+
+```python
+segment_df = transactions_df.groupBy(window("TransactionTime", "1 day"), "CardNumber") \
+    .agg(sum("Amount").alias("daily_total")) \
+    .withColumn("Segment", when(col("daily_total") > 10000, "High-Spender")
+                .when(col("daily_total") > 5000, "Medium-Spender")
+                .otherwise("Low-Spender"))
+
+segment_df.writeStream \
+    .format("delta") \
+    .outputMode("complete") \
+    .option("checkpointLocation", "/delta/checkpoints/customer_segments") \
+    .start("/delta/output/customer_segments")
+```
+
+---
+
+# 4. Merchant Performance Tracking
+
+```python
+merchant_perf_df = transactions_df.groupBy(window("TransactionTime", "1 hour"), "MerchantID") \
+    .agg(count("TransactionID").alias("TransactionCount"), sum("Amount").alias("TotalAmount"))
+
+merchant_perf_df.writeStream \
+    .format("delta") \
+    .outputMode("complete") \
+    .option("checkpointLocation", "/delta/checkpoints/merchant_performance") \
+    .start("/delta/output/merchant_performance")
+```
+
+---
+
+# 5. Real-Time Spending Alerts
+
+```python
+spending_alert_df = transactions_df.filter(col("Amount") > 5000)
+
+spending_alert_df.writeStream \
+    .format("delta") \
+    .outputMode("append") \
+    .option("checkpointLocation", "/delta/checkpoints/spending_alerts") \
+    .start("/delta/output/spending_alerts")
+```
+
+---
+
+# 6. Duplicate Transaction Identification
+
+```python
+duplicate_txn_df = transactions_df.groupBy("TransactionID") \
+    .agg(count("*").alias("txn_count")) \
+    .filter(col("txn_count") > 1)
+
+duplicate_txn_df.writeStream \
+    .format("delta") \
+    .outputMode("complete") \
+    .option("checkpointLocation", "/delta/checkpoints/duplicate_txns") \
+    .start("/delta/output/duplicate_txns")
+```
+
+---
+
+# 7. ML-Based Anomaly Detection (Simplified using Statistical approach)
+
+```python
+stats_df = transactions_df.select(mean("Amount").alias("mean"), stddev("Amount").alias("stddev")).collect()
+mean_amt = stats_df[0]['mean']
+stddev_amt = stats_df[0]['stddev']
+
+anomaly_df = transactions_df.filter((col("Amount") > mean_amt + 3*stddev_amt) | (col("Amount") < mean_amt - 3*stddev_amt))
+
+anomaly_df.writeStream \
+    .format("delta") \
+    .outputMode("append") \
+    .option("checkpointLocation", "/delta/checkpoints/anomalies") \
+    .start("/delta/output/anomalies")
+```
+
+---
+
+# 8. Real-Time Cross-Selling Recommendation
+
+```python
+purchase_patterns = transactions_df.alias("txn") \
+    .join(spark.read.format("delta").load("/delta/product_affinity").alias("affinity"), "MerchantCategory") \
+    .select("txn.CardNumber", "affinity.RecommendedCategory")
+
+purchase_patterns.writeStream \
+    .format("delta") \
+    .outputMode("append") \
+    .option("checkpointLocation", "/delta/checkpoints/cross_sell") \
+    .start("/delta/output/cross_sell")
+```
+
+---
+
+# 9. Transaction Categorization
+
+```python
+category_df = transactions_df.select("TransactionID", "Amount", "MerchantCategory")
+
+category_df.writeStream \
+    .format("delta") \
+    .outputMode("append") \
+    .option("checkpointLocation", "/delta/checkpoints/txn_categories") \
+    .start("/delta/output/txn_categories")
+```
+
+---
+
+# 10. Real-Time Customer Retention Logic
+
+```python
+window_customer = transactions_df.groupBy("CardNumber") \
+    .agg(max("TransactionTime").alias("LastTxnTime")) \
+    .withColumn("DaysSinceLastTxn", datediff(current_timestamp(), "LastTxnTime")) \
+    .filter(col("DaysSinceLastTxn") > 30)
+
+window_customer.writeStream \
+    .format("delta") \
+    .outputMode("complete") \
+    .option("checkpointLocation", "/delta/checkpoints/customer_retention") \
+    .start("/delta/output/customer_churn_risk")
+```
+
+---
+
++ Project Conclusion :
+
+- The RealCardSense project successfully enabled ABC Bank to achieve real-time analytics on credit card transactions.
+- Azure Databricks provided efficient and scalable processing, significantly improving fraud detection accuracy.
+- Enhanced customer segmentation allowed ABC Bank to deliver personalized services, boosting customer satisfaction.
+- Real-time insights facilitated immediate business decisions, contributing positively to revenue growth and market competitiveness.
+- Overall, the cloud-based solution streamlined operations, ensuring compliance, security, and long-term cost efficiency.
+
+
+This comprehensive document specifically tailored for banking provides a detailed guide on setting up, managing, and operating a robust real-time credit card analytics platform using Azure Databricks.
